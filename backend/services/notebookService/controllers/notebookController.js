@@ -140,3 +140,19 @@ exports.favoriteNotebook = async (req, res) => {
         res.status(500).json({ message: 'Error marking notebook as favorite', error: err.message });
     }
 };
+
+// Unfavorite a notebook
+exports.unfavoriteNotebook = async (req, res) => {
+    try {
+        const notebook = await Notebook.findById(req.params.notebookId);
+        if (!notebook || notebook.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to unfavorite this notebook' });
+        }
+
+        notebook.favorite = false;
+        const updatedNotebook = await notebook.save();
+        res.status(200).json(updatedNotebook);
+    } catch (err) {
+        res.status(500).json({ message: 'Error removing favorite from notebook', error: err.message });
+    }
+};
