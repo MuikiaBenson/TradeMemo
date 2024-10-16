@@ -17,3 +17,12 @@ exports.createNotebook = async (req, res) => {
     }
 };
 
+// Get all notebooks for a user
+exports.getNotebooks = async (req, res) => {
+    try {
+        const notebooks = await Notebook.find({ owner: req.user.id });
+        res.status(200).json(notebooks);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving notebooks', error: err.message });
+    }
+};
