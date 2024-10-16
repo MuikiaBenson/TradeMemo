@@ -73,3 +73,20 @@ exports.editNote = async (req, res) => {
         res.status(500).json({ message: 'Error editing note', error: err.message });
     }
 };
+
+// Delete a note from a notebook
+exports.deleteNote = async (req, res) => {
+    try {
+        const note = await Note.findById(req.params.noteId);
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        await Note.deleteOne({ _id: req.params.noteId });
+        await Notebook.updateOne({ _id: note.notebook }, { $pull: { notes: req.params.noteId } });
+
+        res.status(200).json({ message: 'Note deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Error deleting note', error: err.message });
+    }
+};
