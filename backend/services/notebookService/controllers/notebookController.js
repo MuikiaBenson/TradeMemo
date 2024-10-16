@@ -90,3 +90,22 @@ exports.deleteNote = async (req, res) => {
         res.status(500).json({ message: 'Error deleting note', error: err.message });
     }
 };
+
+// Rename a notebook
+exports.renameNotebook = async (req, res) => {
+    try {
+        const { name } = req.body;
+        const notebook = await Notebook.findById(req.params.notebookId);
+
+        if (!notebook || notebook.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to rename this notebook' });
+        }
+
+        notebook.name = name || notebook.name;
+        notebook.updatedAt = Date.now();
+        const updatedNotebook = await notebook.save();
+        res.status(200).json(updatedNotebook);
+    } catch (err) {
+        res.status(500).json({ message: 'Error renaming notebook', error: err.message });
+    }
+};
