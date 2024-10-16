@@ -8,3 +8,7 @@ router.post('/notebooks', auth, notebookController.createNotebook);
 router.get('/notebooks', auth, notebookController.getNotebooks);
 router.put('/notebooks/:notebookId/rename', auth, notebookController.renameNotebook);
 router.delete('/notebooks/:notebookId', auth, notebookController.deleteNotebook);
+
+// Favorite and unfavorite a notebook
+router.put('/notebooks/:notebookId/favorite', auth, notebookController.favoriteNotebook);
+router.put('/notebooks/:notebookId/unfavorite', auth, notebookController.unfavoriteNotebook);
