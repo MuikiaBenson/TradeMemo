@@ -109,3 +109,18 @@ exports.renameNotebook = async (req, res) => {
         res.status(500).json({ message: 'Error renaming notebook', error: err.message });
     }
 };
+
+// Delete a notebook
+exports.deleteNotebook = async (req, res) => {
+    try {
+        const notebook = await Notebook.findById(req.params.notebookId);
+        if (!notebook || notebook.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to delete this notebook' });
+        }
+
+        await notebook.remove();
+        res.status(200).json({ message: 'Notebook deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Error deleting notebook', error: err.message });
+    }
+};
