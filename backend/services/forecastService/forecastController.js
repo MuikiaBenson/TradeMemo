@@ -92,3 +92,19 @@ exports.editForecast = async (req, res) => {
         res.status(500).json({ message: 'Error editing forecast', error: err.message });
     }
 };
+
+// Delete a forecast
+exports.deleteForecast = async (req, res) => {
+    try {
+        const forecast = await Forecast.findById(req.params.forecastId);
+
+        if (!forecast || forecast.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to delete this forecast' });
+        }
+
+        await forecast.remove();
+        res.status(200).json({ message: 'Forecast deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Error deleting forecast', error: err.message });
+    }
+};
