@@ -68,3 +68,27 @@ exports.getForecastById = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving forecast', error: err.message });
     }
 };
+
+// Edit a forecast
+exports.editForecast = async (req, res) => {
+    try {
+        const { title, generalBias, conclusion, dailyBias, expectation } = req.body;
+        const forecast = await Forecast.findById(req.params.forecastId);
+
+        if (!forecast || forecast.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to edit this forecast' });
+        }
+
+        forecast.title = title || forecast.title;
+        forecast.generalBias = generalBias || forecast.generalBias;
+        forecast.conclusion = conclusion || forecast.conclusion;
+        forecast.dailyBias = dailyBias || forecast.dailyBias;
+        forecast.expectation = expectation || forecast.expectation;
+        forecast.updatedAt = Date.now();
+
+        const updatedForecast = await forecast.save();
+        res.status(200).json(updatedForecast);
+    } catch (err) {
+        res.status(500).json({ message: 'Error editing forecast', error: err.message });
+    }
+};
