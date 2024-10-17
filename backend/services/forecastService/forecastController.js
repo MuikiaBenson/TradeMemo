@@ -43,3 +43,13 @@ exports.addProperty = async (req, res) => {
         res.status(500).json({ message: 'Error adding property', error: err.message });
     }
 };
+
+// Get all forecasts for a user
+exports.getForecasts = async (req, res) => {
+    try {
+        const forecasts = await Forecast.find({ owner: req.user.id }).populate('properties');
+        res.status(200).json(forecasts);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving forecasts', error: err.message });
+    }
+};
