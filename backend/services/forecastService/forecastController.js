@@ -21,3 +21,25 @@ exports.createForecast = async (req, res) => {
     }
 };
 
+// Add a property (title, media, description) to the forecast
+exports.addProperty = async (req, res) => {
+    try {
+        const forecast = await Forecast.findById(req.params.forecastId);
+
+        if (!forecast || forecast.owner.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized to update this forecast' });
+        }
+
+        const { title, description } = req.body;
+        const media = req.file ? `/uploads/${req.file.filename}` : ''; // Handle media file
+
+        const newProperty = { title, description, media };
+        forecast.properties.push(newProperty);
+        forecast.updatedAt = Date.now();
+
+        const updatedForecast = await forecast.save();
+        res.status(201).json(updatedForecast);
+    } catch (err) {
+        res.status(500).json({ message: 'Error adding property', error: err.message });
+    }
+};
