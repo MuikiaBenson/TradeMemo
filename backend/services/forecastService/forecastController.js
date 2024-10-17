@@ -53,3 +53,18 @@ exports.getForecasts = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving forecasts', error: err.message });
     }
 };
+
+// Get a specific forecast
+exports.getForecastById = async (req, res) => {
+    try {
+        const forecast = await Forecast.findById(req.params.forecastId);
+
+        if (!forecast || forecast.owner.toString() !== req.user.id) {
+            return res.status(404).json({ message: 'Forecast not found' });
+        }
+
+        res.status(200).json(forecast);
+    } catch (err) {
+        res.status(500).json({ message: 'Error retrieving forecast', error: err.message });
+    }
+};
