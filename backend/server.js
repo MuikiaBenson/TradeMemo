@@ -12,4 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+const authRoutes = require('./routes/authRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+app.use('/api/auth', authRoutes);
+app.use('/api/blogs', blogRoutes);
 // Connect DB and Start Server
