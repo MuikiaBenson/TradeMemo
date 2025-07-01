@@ -8,5 +8,8 @@ const connectDB = require('./config/db');
 dotenv.config();
 const app = express();
 // Middlewares
+app.use(cors());
+app.use(express.json());
+
 // Routes
 // Connect DB and Start Server
