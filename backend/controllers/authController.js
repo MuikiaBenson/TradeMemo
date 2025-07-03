@@ -15,21 +15,20 @@ const generateToken = (userId) => {
 // @access  Public
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log('[REGISTER] Incoming request:', { name, email });
 
   try {
-    // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
+      console.log('[REGISTER] User already exists:', email);
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Create and save new user (password is hashed via pre-save hook)
     const user = await User.create({ name, email, password });
 
-    // Generate JWT for the new user
     const token = generateToken(user._id);
+    console.log('[REGISTER] User registered successfully:', user._id);
 
-    // Return user data (excluding password) and token
     res.status(201).json({
       user: {
         id: user._id,
@@ -39,7 +38,7 @@ exports.register = async (req, res) => {
       token
     });
   } catch (err) {
-    console.error(err);
+    console.error('[REGISTER] Error during registration:', err);
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -49,20 +48,28 @@ exports.register = async (req, res) => {
 // @access  Public
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log('[LOGIN] Request received:', { email });
 
   try {
-    // Find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
+    console.log('[LOGIN] User found:', !!user);
 
-    // Check if user exists and password matches
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user) {
+      console.log('[LOGIN] User not found for email:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate JWT on successful login
-    const token = generateToken(user._id);
+    const isMatch = await user.comparePassword(password);
+    console.log('[LOGIN] Password match result:', isMatch);
 
-    // Return user info and token
+    if (!isMatch) {
+      console.log('[LOGIN] Password did not match for user:', email);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = generateToken(user._id);
+    console.log('[LOGIN] Token generated for user:', user._id);
+
     res.status(200).json({
       user: {
         id: user._id,
@@ -72,8 +79,7 @@ exports.login = async (req, res) => {
       token
     });
   } catch (err) {
-    console.error(err);
+    console.error('[LOGIN] Error during login:', err);
     res.status(500).json({ error: 'Server error' });
   }
 };
-
