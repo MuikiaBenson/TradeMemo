@@ -18,6 +18,11 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 //app.use('/api/blogs', blogRoutes);
 
+//Root route to respond when visiting http://localhost:5000
+app.get('/', (req, res) => {
+  res.send('TradeMemo backend is running!');
+});
+
 // Connect DB and Start Server
 const PORT = process.env.PORT || 5000;
 connectDB().then(() => {
