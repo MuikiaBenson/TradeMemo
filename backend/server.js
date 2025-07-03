@@ -18,11 +18,11 @@ app.use(express.json()); // Parse JSON bodies
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-// const blogRoutes = require('./routes/blogRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-// app.use('/api/blogs', blogRoutes);
+app.use('/api/blogs', blogRoutes);
 
 // Root route for browser test
 app.get('/', (req, res) => {
