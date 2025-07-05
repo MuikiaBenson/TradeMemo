@@ -1,0 +1,59 @@
+/* src/components/Header.module.css */
+
+.header {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 16px 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  z-index: 1;
+}
+
+.nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.social {
+  display: flex;
+  gap: 16px;
+  z-index: 1;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #1da1f2;
+}
+
+.svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
