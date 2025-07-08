@@ -1,0 +1,18 @@
+.wrapper {
+  margin-top: 1rem;
+}
+
+.label {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #1a1a1a;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.preview {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
