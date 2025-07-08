@@ -17,7 +17,7 @@ export default function Header() {
 
       <div className={styles.social}>
         <a
-          href="https://twitter.com/YOUR_HANDLE"
+          href="https://x.com/BensonMuikia"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.icon}
@@ -25,7 +25,7 @@ export default function Header() {
           <FaXTwitter className={styles.svg} />
         </a>
         <a
-          href="https://github.com/YOUR_USERNAME"
+          href="https://github.com/MuikiaBenson"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.icon}
@@ -33,7 +33,7 @@ export default function Header() {
           <FaGithub className={styles.svg} />
         </a>
         <a
-          href="https://www.linkedin.com/in/YOUR_PROFILE"
+          href="https://www.linkedin.com/in/benson-muigai-03905b173/"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.icon}
