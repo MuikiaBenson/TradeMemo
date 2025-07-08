@@ -7,11 +7,10 @@ export default function Layout() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <main style={{ flex: 1, padding: '1rem' }}>
+      <main style={{ flex: 1 }}>
         <Outlet />
       </main>
       <Footer />
     </div>
   );
 }
-
