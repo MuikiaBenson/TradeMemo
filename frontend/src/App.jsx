@@ -8,7 +8,6 @@ import {
 import Layout from './Layout';
 import Home from './pages/Home';
 import About from './pages/About';
-import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Posts from './pages/Posts';
 import PostDetails from './pages/PostDetails';
@@ -21,7 +20,6 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="blog" element={<Blog />} />
           <Route path="contact" element={<Contact />} />
           <Route path="posts" element={<Posts />} />
           <Route path="posts/new" element={<CreatePost />} />
